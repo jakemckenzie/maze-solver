@@ -18,3 +18,6 @@ class Window:
 
     def draw_lines(self, line, fill_color):
         line.draw(self.canvas, fill_color)
+
+    def create_line(self, *args, **kwargs):
+        self.canvas.create_line(*args, **kwargs)

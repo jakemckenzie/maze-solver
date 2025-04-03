@@ -21,7 +21,19 @@ def main():
     controller.draw_cell(cell3)
     controller.draw_cell(cell4)
 
-    controller.run()
+    controller.draw_move(cell1, cell2)
+    controller.draw_move(cell2, cell3)
+    controller.draw_move(cell3, cell4)
+    controller.draw_move(cell4, cell1, undo=True)
+
+    root.protocol("WM_DELETE_WINDOW", root.quit)
+    try:
+        controller.run()
+    except KeyboardInterrupt:
+        print()
+        print()
+        print("Application interrupted. Exiting...")
+        root.quit()
 
 if __name__ == "__main__":
     main()

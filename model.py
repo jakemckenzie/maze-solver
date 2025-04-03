@@ -42,10 +42,21 @@ class Cell:
     def draw(self):
         if self._win:
             if self.has_left_wall:
-                self._win.canvas.create_line(self.x1, self.y1, self.x1, self.y2, fill="black", width=2)
+                self._win.canvas.create_line(self.x1, self.y1, self.x1, self.y2, fill="black")
             if self.has_right_wall:
-                self._win.canvas.create_line(self.x2, self.y1, self.x2, self.y2, fill="black", width=2)
+                self._win.canvas.create_line(self.x2, self.y1, self.x2, self.y2, fill="black")
             if self.has_top_wall:
-                self._win.canvas.create_line(self.x1, self.y1, self.x2, self.y1, fill="black", width=2)
+                self._win.canvas.create_line(self.x1, self.y1, self.x2, self.y1, fill="black")
             if self.has_bottom_wall:
-                self._win.canvas.create_line(self.x1, self.y2, self.x2, self.y2, fill="black", width=2)
+                self._win.canvas.create_line(self.x1, self.y2, self.x2, self.y2, fill="black")
+
+    def draw_move(self, to_cell, undo=False):
+        if self._win:
+            x1_center = (self.x1 + self.x2) / 2
+            y1_center = (self.y1 + self.y2) / 2
+            x2_center = (to_cell.x1 + to_cell.x2) / 2
+            y2_center = (to_cell.y1 + to_cell.y2) / 2
+
+            line_color = "gray" if undo else "red"
+
+            self._win.create_line(x1_center, y1_center, x2_center, y2_center, fill=line_color, width=2)
