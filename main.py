@@ -1,29 +1,28 @@
 import tkinter as tk
 from controller import Controller
-from model import Line, Point
-from view import Window
+from model import Cell
 
 def main():
     root = tk.Tk()
-    window = Window(root, 800, 600)
-    controller = Controller(window)
+    controller = Controller(root, width=800, height=600)
 
-    point1 = Point(69, 69)
-    point2 = Point(420, 420)
-    point3 = Point(420, 69)
-    point4 = Point(69, 420)
+    cell1 = Cell(50, 50, 150, 150)
+    cell2 = Cell(200, 50, 300, 150)
+    cell3 = Cell(50, 200, 150, 300)
+    cell4 = Cell(200, 200, 300, 300)
 
-    line1 = Line(point1, point2)
-    line2 = Line(point2, point3)
-    line3 = Line(point3, point4)
-    line4 = Line(point4, point1)
+    cell2.has_top_wall = False
+    cell3.has_bottom_wall = False
+    cell4.has_left_wall = False
+    cell4.has_right_wall = False
 
-    controller.draw_line(line1, "Red")
-    controller.draw_line(line2, "Blue")
-    controller.draw_line(line3, "Green")
-    controller.draw_line(line4, "black")
+    controller.draw_cell(cell1)
+    controller.draw_cell(cell2)
+    controller.draw_cell(cell3)
+    controller.draw_cell(cell4)
 
-    window.wait_for_close()
+    controller.run()
 
 if __name__ == "__main__":
     main()
+

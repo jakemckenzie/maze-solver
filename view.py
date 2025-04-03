@@ -18,7 +18,3 @@ class Window:
 
     def draw_lines(self, line, fill_color):
         line.draw(self.canvas, fill_color)
-
-    def wait_for_close(self):
-        """Start the Tkinter main event loop."""
-        self.root.mainloop()
