@@ -9,8 +9,8 @@ def main():
     maze = Maze(
         x1=50,
         y1=50,
-        num_rows=4,
-        num_cols=4,
+        num_rows=8,
+        num_cols=8,
         cell_size_x=50,
         cell_size_y=50,
         win=controller.window
