@@ -23,5 +23,18 @@ class Tests(unittest.TestCase):
         self.assertEqual(len(m3._cells), num_cols)
         self.assertEqual(len(m3._cells[0]), num_rows)
 
+    def test_reset_cells_visited(self):
+        maze = Maze(x1=0, y1=0, num_rows=3, num_cols=3, cell_size_x=10, cell_size_y=10)
+
+        maze._cells[0][0].visited = True
+        maze._cells[1][1].visited = True
+        maze._cells[2][2].visited = True
+
+        maze._reset_cells_visited()
+
+        for row in maze._cells:
+            for cell in row:
+                self.assertFalse(cell.visited)
+
 if __name__ == "__main__":
     unittest.main()
