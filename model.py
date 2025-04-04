@@ -1,3 +1,5 @@
+import time
+
 class MazeSolver:
     def __init__(self, point1, point2):
         self.point1 = point1
@@ -29,7 +31,6 @@ class Cell:
         self.y1 = y1
         self.x2 = x2
         self.y2 = y2
-
         self.has_left_wall = True
         self.has_right_wall = True
         self.has_top_wall = True
@@ -56,7 +57,46 @@ class Cell:
             y1_center = (self.y1 + self.y2) / 2
             x2_center = (to_cell.x1 + to_cell.x2) / 2
             y2_center = (to_cell.y1 + to_cell.y2) / 2
-
             line_color = "gray" if undo else "red"
-
             self._win.create_line(x1_center, y1_center, x2_center, y2_center, fill=line_color, width=2)
+
+class Maze:
+    def __init__(self, x1, y1, num_rows, num_cols, cell_size_x, cell_size_y, win):
+        self.x1 = x1
+        self.y1 = y1
+        self.num_rows = num_rows
+        self.num_cols = num_cols
+        self.cell_size_x = cell_size_x
+        self.cell_size_y = cell_size_y
+        self.win = win
+        self._cells = []
+        self._create_cells()
+
+    def _create_cells(self):
+        
+        for j in range(self.num_cols):
+            column = []
+            for i in range(self.num_rows):
+
+                cell_x1 = self.x1 + j * self.cell_size_x
+                cell_y1 = self.y1 + i * self.cell_size_y
+                cell_x2 = cell_x1 + self.cell_size_x
+                cell_y2 = cell_y1 + self.cell_size_y
+
+                cell = Cell(cell_x1, cell_y1, cell_x2, cell_y2)
+                cell.set_window(self.win)
+                column.append(cell)
+            self._cells.append(column)
+
+        for j in range(self.num_cols):
+            for i in range(self.num_rows):
+                self._draw_cell(i, j)
+
+    def _draw_cell(self, i, j):
+        cell = self._cells[j][i]
+        cell.draw()
+        self._animate()
+
+    def _animate(self):
+        self.win.update()
+        time.sleep(0.05)
