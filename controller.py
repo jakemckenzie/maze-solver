@@ -1,5 +1,4 @@
 from view import Window
-from model import Cell
 
 class Controller:
     def __init__(self, root, width=800, height=600):

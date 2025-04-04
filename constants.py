@@ -1,0 +1,2 @@
+COL_SIZE = 40
+ROW_SIZE = 32
