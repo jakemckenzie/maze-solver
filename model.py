@@ -73,7 +73,6 @@ class Maze:
         self._create_cells()
 
     def _create_cells(self):
-        # Create the cell grid
         for j in range(self.num_cols):
             column = []
             for i in range(self.num_rows):
@@ -84,8 +83,7 @@ class Maze:
                 cell = Cell(cell_x1, cell_y1, cell_x2, cell_y2, self.win)
                 column.append(cell)
             self._cells.append(column)
-        
-        # Draw all cells if a window is provided
+
         if self.win is not None:
             for j in range(self.num_cols):
                 for i in range(self.num_rows):
