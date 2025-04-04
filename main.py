@@ -7,12 +7,12 @@ def main():
     controller = Controller(root, width=800, height=600)
 
     maze = Maze(
-        x1=50,
-        y1=50,
-        num_rows=8,
-        num_cols=8,
-        cell_size_x=50,
-        cell_size_y=50,
+        x1=16,
+        y1=16,
+        num_rows=32,
+        num_cols=40,
+        cell_size_x=16,
+        cell_size_y=16,
         win=controller.window
     )
 
@@ -30,11 +30,6 @@ def main():
     controller.draw_cell(cell2)
     controller.draw_cell(cell3)
     controller.draw_cell(cell4)
-
-    controller.draw_move(cell1, cell2)
-    controller.draw_move(cell2, cell3)
-    controller.draw_move(cell3, cell4)
-    controller.draw_move(cell4, cell1, undo=True)
 
     root.protocol("WM_DELETE_WINDOW", root.quit)
     try:

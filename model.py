@@ -42,14 +42,28 @@ class Cell:
 
     def draw(self):
         if self._win:
+
+            background_color = "#d9d9d9"
+
             if self.has_left_wall:
                 self._win.canvas.create_line(self.x1, self.y1, self.x1, self.y2, fill="black")
+            else:
+                self._win.canvas.create_line(self.x1, self.y1, self.x1, self.y2, fill=background_color)
+
             if self.has_right_wall:
                 self._win.canvas.create_line(self.x2, self.y1, self.x2, self.y2, fill="black")
+            else:
+                self._win.canvas.create_line(self.x2, self.y1, self.x2, self.y2, fill=background_color)
+
             if self.has_top_wall:
                 self._win.canvas.create_line(self.x1, self.y1, self.x2, self.y1, fill="black")
+            else:
+                self._win.canvas.create_line(self.x1, self.y1, self.x2, self.y1, fill=background_color)
+
             if self.has_bottom_wall:
                 self._win.canvas.create_line(self.x1, self.y2, self.x2, self.y2, fill="black")
+            else:
+                self._win.canvas.create_line(self.x1, self.y2, self.x2, self.y2, fill=background_color)
 
     def draw_move(self, to_cell, undo=False):
         if self._win:
@@ -97,4 +111,13 @@ class Maze:
     def _animate(self):
         if self.win is not None:
             self.win.update()
-            time.sleep(0.05)
+            time.sleep(0.01)
+    
+    def _break_entrance_and_exit(self):
+        entrance_cell = self._cells[0][0]
+        entrance_cell.has_top_wall = False
+        self._draw_cell(0, 0)
+
+        exit_cell = self._cells[self.num_cols - 1][self.num_rows - 1]
+        exit_cell.has_bottom_wall = False
+        self._draw_cell(self.num_rows - 1, self.num_cols - 1)
