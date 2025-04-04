@@ -26,7 +26,7 @@ def main():
     controller.draw_cell(maze._cells[0][0])
     controller.draw_cell(maze._cells[COL_SIZE - 1][ROW_SIZE - 1])
 
-    controller.run()
+    maze.solve()
 
     root.protocol("WM_DELETE_WINDOW", root.quit)
     try:

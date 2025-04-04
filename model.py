@@ -1,14 +1,6 @@
 import random
 import time
 
-class MazeSolver:
-    def __init__(self, point1, point2):
-        self.point1 = point1
-        self.point2 = point2
-
-    def solve(self, maze):
-        pass
-
 class Point:
     def __init__(self, x, y):
         self.x = x
@@ -174,3 +166,38 @@ class Maze:
         for row in self._cells:
             for cell in row:
                 cell.visited = False
+
+    def _solve_r(self, i, j):
+        self._animate()
+        current_cell = self._cells[j][i]
+        current_cell.visited = True
+
+        if i == self.num_rows - 1 and j == self.num_cols - 1:
+            return True
+
+        directions = [
+            ('left', 0, -1, 'has_left_wall'),
+            ('right', 0, 1, 'has_right_wall'),
+            ('up', -1, 0, 'has_top_wall'),
+            ('down', 1, 0, 'has_bottom_wall')
+        ]
+        
+        for _, di, dj, wall_attr in directions:
+            adj_i = i + di
+            adj_j = j + dj
+
+            if 0 <= adj_i < self.num_rows and 0 <= adj_j < self.num_cols:
+                adj_cell = self._cells[adj_j][adj_i]
+
+                if not adj_cell.visited and not getattr(current_cell, wall_attr):
+                    current_cell.draw_move(adj_cell)
+                    if self._solve_r(adj_i, adj_j):
+                        return True
+                    else:
+                        current_cell.draw_move(adj_cell, undo=True)
+        
+        return False
+    
+    def solve(self):
+        return self._solve_r(0, 0)
+    
