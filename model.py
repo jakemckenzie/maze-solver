@@ -1,3 +1,5 @@
+from collections import defaultdict, deque
+import heapq
 import random
 import time
 
@@ -84,7 +86,19 @@ class Maze:
         self._break_entrance_and_exit()
         self._break_walls_r(0, 0)
         self._reset_cells_visited() 
-        
+
+    def _get_neighbors(self, i, j):
+            neighbors = []
+            cell = self._cells[j][i]
+            if not cell.has_top_wall and i > 0:
+                neighbors.append((i-1, j))
+            if not cell.has_bottom_wall and i < self.num_rows - 1:
+                neighbors.append((i+1, j))
+            if not cell.has_left_wall and j > 0:
+                neighbors.append((i, j-1))
+            if not cell.has_right_wall and j < self.num_cols - 1:
+                neighbors.append((i, j+1))
+            return neighbors
 
     def _break_walls_r(self, i, j):
         current_cell = self._cells[j][i]
@@ -151,7 +165,6 @@ class Maze:
     def _animate(self):
         if self.win is not None:
             self.win.update()
-            time.sleep(0.001)
     
     def _break_entrance_and_exit(self):
         entrance_cell = self._cells[0][0]
@@ -201,3 +214,38 @@ class Maze:
     def solve(self):
         return self._solve_r(0, 0)
     
+    def solve_dijkstra(self):
+        start = (0, 0)
+        end = (self.num_rows - 1, self.num_cols - 1)
+        distances = { (i, j): float('inf') for i in range(self.num_rows) for j in range(self.num_cols) }
+        distances[start] = 0
+        previous = { (i, j): None for i in range(self.num_rows) for j in range(self.num_cols) }
+        pq = [(0, start)]
+        heapq.heapify(pq)
+
+        while pq:
+            current_distance, current = heapq.heappop(pq)
+            current_i, current_j = current
+            if current == end:
+                break
+            if current_distance > distances[current]:
+                continue
+            for neighbor in self._get_neighbors(current_i, current_j):
+                distance = current_distance + 1
+                if distance < distances[neighbor]:
+                    distances[neighbor] = distance
+                    previous[neighbor] = current
+                    heapq.heappush(pq, (distance, neighbor))
+        path = []
+        current = end
+        while current is not None:
+            path.append(current)
+            current = previous[current]
+        path.reverse()
+        for k in range(len(path) - 1):
+            from_i, from_j = path[k]
+            to_i, to_j = path[k+1]
+            from_cell = self._cells[from_j][from_i]
+            to_cell = self._cells[to_j][to_i]
+            from_cell.draw_move(to_cell)
+            self._animate()
