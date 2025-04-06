@@ -248,3 +248,64 @@ class Maze:
             to_cell = self._cells[to_j][to_i]
             from_cell.draw_move(to_cell)
             self._animate()
+
+    def solve_min_cut(self):
+        start = (0, 0)
+        end = (self.num_rows - 1, self.num_cols - 1)
+
+        self._reset_cells_visited()
+
+        flow, path = self.ford_fulkerson(start, end)
+
+        if path:
+            for k in range(len(path) - 1):
+                from_i, from_j = path[k]
+                to_i, to_j = path[k + 1]
+                from_cell = self._cells[from_j][from_i]
+                to_cell = self._cells[to_j][to_i]
+                from_cell.draw_move(to_cell)
+                self._animate()
+
+    def ford_fulkerson(self, start, end):
+
+        parent = {}
+        max_flow = 0
+        path = []
+
+        while True:
+
+            visited = set()
+            queue = deque([start])
+            parent[start] = None
+            found = False
+
+            while queue and not found:
+                current = queue.popleft()
+                if current == end:
+                    found = True
+                    break
+                for neighbor in self._get_neighbors(*current):
+
+                    if neighbor not in visited and not self._cells[neighbor[1]][neighbor[0]].visited:
+                        queue.append(neighbor)
+                        visited.add(neighbor)
+                        parent[neighbor] = current
+
+            if not found:
+                break
+
+            max_flow += 1
+
+            current = end
+            path = [current]
+            while current != start:
+                prev = parent[current]
+
+                self._cells[current[1]][current[0]].visited = True
+                current = prev
+                path.append(current)
+            path.reverse()
+
+            break
+
+        return max_flow, path if max_flow > 0 else []
