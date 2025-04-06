@@ -19,7 +19,7 @@ This project is a maze generator and solver implemented in Python for the [Maze 
 
 - **Maze Generation**: no loops, just pure recursion, had to increase the recursion limit because lol python
 - **Maze Solving**: uses dfs
-- **Animation**: animate() in model.py doesn't need to be in view because it complies with ["immediate mode M/V/C"](https://johno.se/book/immvc.html), I included init to comply with java classes rules and OO
+- **Animation**: animate() in model.py doesn't need to be in view because it complies with ["immediate mode M/V/C"](https://johno.se/book/immvc.html), I included init to comply with python classes rules and OO
 - **MVC Architecture**: Casey Muratori explains this fairly good job of [explaining immediate mode M/V/C here](https://youtu.be/Z1qyvQsjK5Y?si=BCjF3VZ_dotFz9LB).
 
 ## Update 1
